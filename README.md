@@ -7,4 +7,7 @@ Toimintoja:
   * Hahmon tarkastelu
   * Esineen lisääminen hahmolle
   * Esineen poistaminen hahmolta
+  
+Relaatiokaavio
+![alt text](https://github.com/annareej/DndCharacterSheet/blob/master/DndCharacterSheet.png "Relaatiokaavio")
 
