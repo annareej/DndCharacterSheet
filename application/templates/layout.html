@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dungeons & Dragons character sheets</title>
+    </head>
+
+    <body>
+        <ul>
+            <li><a href="{{ url_for('characters_index') }}">Your characters</a></li>
+            <li><a href="{{ url_for('character_form') }}">Create character</a></li>
+        </ul>
+        {% block body %}
+            <p>
+                Content.
+            </p>
+        {% endblock %}
+    <body>
+</html>

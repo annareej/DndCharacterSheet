@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>Character name</th>
+        </tr>
+        {% for character in characters %}
+        <tr>
+            <td>{{ character.name }}</td>
+            <td>
+                <form method="GET" action="{{ url_for('character_view', char_id=character.id) }}">
+                    <input type="submit" value="View" />
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

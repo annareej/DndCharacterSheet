@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST" action="{{ url_for('character_create') }}">
+    <label>Character name:</label> <input type="text" name="name" /> <br />
+    <label>Strength:</label> <input type="text" name="str"> <br />
+    <label>Dexterity:</label> <input type="text" name="dex"> <br />
+    <label>Constitution:</label> <input type="text" name="con"> <br />
+    <label>Intelligence:</label> <input type="text" name="int"> <br />
+    <label>Wisdom:</label> <input type="text" name="wis"> <br />
+    <label>Charisma:</label> <input type="text" name="cha"> <br />
+    <input type="submit" value="Create" />
+</form>
+{% endblock %}
