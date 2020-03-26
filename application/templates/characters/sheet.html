@@ -10,4 +10,9 @@
 <p>Intelligence: {{ character.intelligence }}</p>
 <p>Wisdom: {{ character.wisdom }}</p>
 <p>Charisma: {{ character.charisma }}</p>
+<p>
+    <form method="POST" action="{{ url_for('character_level_up', char_id=character.id) }}">
+        <input type="submit" value="Level up" />
+    </form>
+</p>
 {% endblock %}

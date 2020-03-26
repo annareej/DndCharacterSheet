@@ -14,6 +14,16 @@ def character_form():
 def character_view(char_id):
 	return render_template("characters/sheet.html", character = Character.query.get(char_id))
 
+@app.route("/characters/<char_id>/", methods=["POST"])
+def character_level_up(char_id):
+
+	character = Character.query.get(char_id)
+	if character.level < 20:
+		character.level += 1
+		db.session().commit()
+
+	return redirect(request.url)
+
 @app.route("/characters/", methods=["POST"])
 def character_create():
 	name = request.form.get("name")
