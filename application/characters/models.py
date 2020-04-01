@@ -15,6 +15,8 @@ class Character(db.Model):
 	wisdom = db.Column(db.Integer, nullable=False)
 	charisma = db.Column(db.Integer, nullable=False)
 
+	account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+
 	def __init__(self, name, str, dex, con, intel, wis, cha):
 		self.name = name
 		self.level = 1
