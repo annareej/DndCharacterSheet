@@ -3,6 +3,8 @@ app = Flask(__name__)
 
 from flask_sqlalchemy import SQLAlchemy
 
+from flask_bcrypt import Bcrypt
+
 import os
 
 if os.environ.get("HEROKU"):
@@ -12,6 +14,7 @@ else:
 	app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 
 # application features
 from application import views
@@ -32,7 +35,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 login_manager.login_view = "auth_login"
-login_manager.login_message = "Please login ot use this functionality."
+login_manager.login_message = "Please login to use this functionality."
 
 @login_manager.user_loader
 def load_user(user_id):
