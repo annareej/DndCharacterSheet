@@ -30,6 +30,13 @@ def character_level_up(char_id):
 
 	return redirect(request.url)
 
+@app.route("/characters/remove/<char_id>/", methods=["POST"])
+@login_required
+def character_remove(char_id):
+	Character.query.filter_by(id=char_id).delete()
+	db.session().commit()
+	return redirect(url_for("characters_index"))
+
 @app.route("/characters/", methods=["POST"])
 @login_required
 def character_create():

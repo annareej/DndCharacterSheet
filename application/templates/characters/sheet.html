@@ -15,4 +15,9 @@
         <input type="submit" value="Level up" />
     </form>
 </p>
+<p>
+    <form method="POST" action="{{ url_for('character_remove', char_id=character.id) }}">
+        <input type="submit" value="Remove character" />
+    </form>
+</p>
 {% endblock %}
