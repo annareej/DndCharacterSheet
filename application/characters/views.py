@@ -5,6 +5,10 @@ from application import app, db
 from application.characters.models import Character
 from application.characters.forms import CharacterForm
 
+from application.sheet.models import CharacterSheet
+
+from application.races.models import Race
+
 @app.route("/characters/", methods=["GET"])
 @login_required
 def characters_index():
@@ -16,8 +20,9 @@ def character_form():
 	return render_template("characters/new.html", form = CharacterForm())
 
 @app.route("/characters/<char_id>/", methods=["GET"])
+@login_required
 def character_view(char_id):
-	return render_template("characters/sheet.html", character = Character.query.get(char_id))
+	return render_template("sheets/sheet.html", sheet = CharacterSheet(char_id))
 
 @app.route("/characters/<char_id>/", methods=["POST"])
 @login_required
@@ -33,14 +38,23 @@ def character_level_up(char_id):
 @app.route("/characters/remove/<char_id>/", methods=["POST"])
 @login_required
 def character_remove(char_id):
-	Character.query.filter_by(id=char_id).delete()
+	character = Character.query.get(char_id)
+	db.session().delete(character)
 	db.session().commit()
 	return redirect(url_for("characters_index"))
+
+@app.route("/characters/render", methods=["POST"])
+def render_form():
+	form = CharacterForm(request.form)
+	race = form.race.data
+
+	return render_template("characters/new.html", form = form, race = race)
 
 @app.route("/characters/", methods=["POST"])
 @login_required
 def character_create():
 	form = CharacterForm(request.form)
+	race = form.race.data
 
 	if not form.validate():
 		return render_template("characters/new.html", form = form)
@@ -55,6 +69,7 @@ def character_create():
 
 	c = Character(name, str, dex, con, intel, wis, cha)
 
+	c.race = race.id
 	c.account_id = current_user.id
 
 	db.session().add(c)

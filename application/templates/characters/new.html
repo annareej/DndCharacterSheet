@@ -1,84 +1,82 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<h3>Create a new character</h3>
+<hr>
 <form method="POST" action="{{ url_for('character_create') }}">
-    <table>
-        <tr>
-            <td>{{ form.name.label }}</td>
-            <td>{{ form.name }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.strength.label }}</td>
-            <td>{{ form.strength }}</td>
-            <td>
-                <ul>
-                    {% for error in form.strength.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ form.dexterity.label }}</td>
-            <td>{{ form.dexterity }}</td>
-            <td>
-                <ul>
-                    {% for error in form.dexterity.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ form.constitution.label }}</td>
-            <td>{{ form.constitution }}</td>
-            <td>
-                <ul>
-                    {% for error in form.constitution.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ form.intelligence.label }}</td>
-            <td>{{ form.intelligence }}</td>
-            <td>
-                <ul>
-                    {% for error in form.intelligence.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ form.wisdom.label }}</td>
-            <td>{{ form.wisdom }}</td>
-            <td>
-                <ul>
-                    {% for error in form.wisdom.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ form.charisma.label }}</td>
-            <td>{{ form.charisma }}</td>
-            <td>
-                <ul>
-                    {% for error in form.charisma.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" value="Create" />
-            </td>
-        </tr>
-    </table>
-    
+    <div class="row">
+        <div class="form-group col-md-6">
+            {{ form.name.label }}
+            {{ form.name(class='form-control', placeholder='Name this character') }}
+            <ul>
+                {% for error in form.name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group col-md-6">
+            {{ form.race.label }}
+            {{ form.race(class='form-control') }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            {{ form.strength.label }}
+            {{ form.strength(class='form-control', placeholder='Value between 3 and 18') }}             
+            <ul>
+                {% for error in form.strength.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.dexterity.label }}
+            {{ form.dexterity(class='form-control', placeholder='Value between 3 and 18') }}
+            <ul>
+                {% for error in form.dexterity.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.constitution.label }}
+            {{ form.constitution(class='form-control', placeholder='Value between 3 and 18') }}
+            <ul>
+                {% for error in form.constitution.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            {{ form.intelligence.label }}
+            {{ form.intelligence(class='form-control', placeholder='Value between 3 and 18') }}
+            <ul>
+                {% for error in form.intelligence.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.wisdom.label }}
+            {{ form.wisdom(class='form-control', placeholder='Value between 3 and 18') }}
+            <ul>
+                {% for error in form.wisdom.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.charisma.label }}
+            {{ form.charisma(class='form-control', placeholder='Value between 3 and 18') }}
+            <ul>
+                {% for error in form.charisma.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Create" />
 </form>
 {% endblock %}

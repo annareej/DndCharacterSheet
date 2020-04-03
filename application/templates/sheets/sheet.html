@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h3>{{ sheet.charname }}</h3>
+
+<table class="table">
+    <tr>
+        <th scope="row">Race:</th>
+        <td>{{ sheet.racename }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Level:</th>
+        <td>{{ sheet.level }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Speed:</th>
+        <td>{{ sheet.speed }} ft.</td>
+    </tr>
+</table>
+<table class="table">
+    <thead>
+        <th scope="col">Strength</th>
+        <th scope="col">Dexterity</th>
+        <th scope="col">Constitution</th>
+        <th scope="col">Intelligence</th>
+        <th scope="col">Wisdom</th>
+        <th scope="col">Charisma</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ sheet.strength }}</td>
+            <td>{{ sheet.dexterity }}</td>
+            <td>{{ sheet.constitution }}</td>
+            <td>{{ sheet.intelligence }}</td>
+            <td>{{ sheet.wisdom }}</td>
+            <td>{{ sheet.charisma }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    <form method="POST" action="{{ url_for('character_level_up', char_id=sheet.char_id) }}">
+        <input class="btn btn-primary" type="submit" value="Level up" />
+    </form>
+</p>
+<p>
+    <form method="POST" action="{{ url_for('character_remove', char_id=sheet.char_id) }}">
+        <input class="btn btn-primary" type="submit" value="Remove character" />
+    </form>
+</p>
+{% endblock %}
