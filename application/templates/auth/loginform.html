@@ -1,22 +1,25 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<form method="POST" action="{{ url_for('auth_login') }}">
-    <div class="form-group">
-        {{ form.username.label }}
-        {{ form.username(class='form-control') }}
-    </div>
-    <div class="form-group">
-        {{ form.password.label }}
-        {{ form.password(class='form-control') }}
-    </div>
-    <div class="form-group">
-        {{ error }}
-    </div>
-    <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="Login" />
-        <span>Or <a href="{{ url_for('user_form')}}">Create a new user</a></span>
-    </div>
-</form>
+<div class="login-form-holder">
+    <form method="POST" action="{{ url_for('auth_login') }}" class="form-signin">
+        <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ error }}
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-block btn-primary" value="Login" />
+            <hr />
+            <div style="text-align: center;">New here? <a href="{{ url_for('user_form')}}">Sign up!</a></div>
+        </div>
+    </form>
+</div>
 
 {% endblock %}

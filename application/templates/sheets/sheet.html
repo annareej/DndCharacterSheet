@@ -6,20 +6,25 @@
 
 <table class="table">
     <tr>
-        <th scope="row">Race:</th>
+        <th scope="row">Race</th>
         <td>{{ sheet.racename }}</td>
     </tr>
     <tr>
-        <th scope="row">Level:</th>
+        <th scope="row">Level</th>
         <td>{{ sheet.level }}</td>
     </tr>
     <tr>
-        <th scope="row">Speed:</th>
+        <th scope="row">Speed</th>
         <td>{{ sheet.speed }} ft.</td>
+    </tr>
+    <tr>
+        <th scope="row">AC</th>
+        <td>{{ sheet.ac }}</td>
     </tr>
 </table>
 <table class="table">
     <thead>
+        <th scope="col"></th>
         <th scope="col">Strength</th>
         <th scope="col">Dexterity</th>
         <th scope="col">Constitution</th>
@@ -29,6 +34,16 @@
     </thead>
     <tbody>
         <tr>
+            <th scope="row">Ability modifier</th>
+            <td>{{ sheet.strmodifier }}</td>
+            <td>{{ sheet.dexmodifier }}</td>
+            <td>{{ sheet.conmodifier }}</td>
+            <td>{{ sheet.intmodifier }}</td>
+            <td>{{ sheet.wismodifier }}</td>
+            <td>{{ sheet.chamodifier }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Ability score</th>
             <td>{{ sheet.strength }}</td>
             <td>{{ sheet.dexterity }}</td>
             <td>{{ sheet.constitution }}</td>

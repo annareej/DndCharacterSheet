@@ -7,7 +7,6 @@ from application.characters.forms import CharacterForm
 
 from application.sheet.models import CharacterSheet
 
-from application.races.models import Race
 
 @app.route("/characters/", methods=["GET"])
 @login_required
@@ -42,13 +41,6 @@ def character_remove(char_id):
 	db.session().delete(character)
 	db.session().commit()
 	return redirect(url_for("characters_index"))
-
-@app.route("/characters/render", methods=["POST"])
-def render_form():
-	form = CharacterForm(request.form)
-	race = form.race.data
-
-	return render_template("characters/new.html", form = form, race = race)
 
 @app.route("/characters/", methods=["POST"])
 @login_required
