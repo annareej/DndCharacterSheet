@@ -27,3 +27,6 @@ class User(Base):
 
 	def is_authenticated(self):
 		return True
+
+	def change_password(self, password):
+		self.password = bcrypt.generate_password_hash(password).decode('UTF-8')

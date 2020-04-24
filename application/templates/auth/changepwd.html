@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Change password</h3>
+<hr>
+<form method="POST" action="{{ url_for('user_change_password') }}">
+    <div class="form-group">
+        {{ form.username.label }}
+        {{ form.username(class='form-control', placeholder='Username') }}
+    </div>
+    <div clas="form-group">
+        {{ form.password.label }}
+        {{ form.password(class='form-control', placeholder='Password') }}
+        <ul class="error">
+            {% for error in form.password.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="form-group">
+        {{ form.password2.label }}
+        {{ form.password2(class='form-control', placeholder='Repeat password') }} 
+    </div>
+    <div class="form-group error">
+        {{ error }}
+    </div>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Change password" />            
+    </div>  
+</form>
+{% endblock %}

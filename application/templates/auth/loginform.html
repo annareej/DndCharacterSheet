@@ -11,13 +11,16 @@
             {{ form.password.label }}
             {{ form.password(class='form-control') }}
         </div>
-        <div class="form-group">
+        <div class="form-group error">
             {{ error }}
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-block btn-primary" value="Login" />
             <hr />
-            <div style="text-align: center;">New here? <a href="{{ url_for('user_form')}}">Sign up!</a></div>
+            <div style="text-align: center;">
+                <p>New here? <a href="{{ url_for('user_form')}}">Sign up!</a></p>
+                <p>Forgot your password? <a href="{{ url_for('changepwd_form') }}">Change it here!</a></p>
+            </div>
         </div>
     </form>
 </div>

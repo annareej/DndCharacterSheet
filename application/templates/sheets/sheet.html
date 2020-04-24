@@ -1,67 +1,139 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<script>
+    function btn_Click(){
+        $("#levelup").css("display", "block");
+    }
+
+    function toggle(btn){
+        if(btn.id == "cancelArmor"){
+            $("#armor_row").show();
+            $("#armor_form").hide(); 
+        } 
+        else if(btn.id == "showArmor"){
+            $("#armor_form").show();
+            $("#armor_row").hide();
+        }
+        else if(btn.id == "toggleLevelup"){
+            if($("#Levelup").is(":visible")){
+                $("#Levelup").hide();
+                $(btn).html("Level up");
+            }
+            else {
+                $("#Levelup").show();
+                $(btn).html("Cancel");    
+            }
+        }
+
+        return false;
+    }
+
+</script>
 
 <h3>{{ sheet.charname }}</h3>
+<div class="row">
+    <div class="col-md-3">
+        <h6>{{ sheet.racename }}</h6>
+        <h6>{{ sheet.classname }}</h6>
+        <h6>Level {{ sheet.level }}</h6>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-striped">
+            <tr>
+                <th scope="row">Speed</th>
+                <td>{{ sheet.speed }} ft.</td>
+            </tr>
+            <tr>
+                <th scope="row">Hit point maximum</th>
+                <td>{{ sheet.maxhp }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Armor class</th>
+                <td>{{ sheet.ac }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Proficiency bonus</th>
+                <td>+{{ sheet.profbonus }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="table">
+            <tr id="armor_row">
+                <th scope="row">Armor</th>
+                <td>{{ sheet.armor }}</td>
+                <td>
+                    <button type="button" id="showArmor" class="btn btn-primary" onclick="toggle(this)">Change</button>
+                </td>
+            </tr>
+            <tr id="armor_form" style="display: none;">
+                <form method="POST" action="{{ url_for('character_add_armor', char_id=sheet.char_id) }}">
+                    <th scope="row">{{ armorform.armor.label }}</th>
+                    <td>{{ armorform.armor(class='form-control') }}</td>
+                    <td><input class="btn btn-primary" type="submit" value="Save"></td>
+                </form>
+                <td><button type="button" id="cancelArmor" class="btn btn-primary" onclick="toggle(this)">Cancel</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div style="margin-top: 1em;">
+    <button id="toggleLevelup" type="button" class="btn btn-primary" onclick="toggle(this);">Level up</button>
+    <div id="Levelup" style="display: none; padding: 1em;">
+        <form class="form-inline" method="POST" action="{{ url_for('character_level_up', char_id=sheet.char_id) }}">            
+            <div class="input-group">
+                {{ form.hpfield.label }}
+                {{ form.hpfield(class='form-control') }}
+                <div class="input-group-append">
+                    <span class="input-group-text">{% if sheet.conmodifier|int > -1%}+{% endif %}{{ sheet.conmodifier }}</span>
+                    <input class="btn btn-primary" type="submit" value="Save" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<div style="margin-top: 1em;">
+    <table class="table">
+        <thead class="thead-dark">
+            <th scope="col"></th>
+            <th scope="col">Strength</th>
+            <th scope="col">Dexterity</th>
+            <th scope="col">Constitution</th>
+            <th scope="col">Intelligence</th>
+            <th scope="col">Wisdom</th>
+            <th scope="col">Charisma</th>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Ability modifier</th>
+                <td>{% if sheet.strmodifier|int > 0%}+{% endif %}{{ sheet.strmodifier }}</td>
+                <td>{% if sheet.dexmodifier|int > 0%}+{% endif %}{{ sheet.dexmodifier }}</td>
+            <td>{% if sheet.conmodifier|int > 0%}+{% endif %}{{ sheet.conmodifier }}</td>
+            <td>{% if sheet.intmodifier|int > 0%}+{% endif %}{{ sheet.intmodifier }}</td>
+            <td>{% if sheet.wismodifier|int > 0%}+{% endif %}{{ sheet.wismodifier }}</td>
+            <td>{% if sheet.chamodifier|int > 0%}+{% endif %}{{ sheet.chamodifier }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Ability score</th>
+                <td>{{ sheet.strength }}</td>
+                <td>{{ sheet.dexterity }}</td>
+                <td>{{ sheet.constitution }}</td>
+                <td>{{ sheet.intelligence }}</td>
+                <td>{{ sheet.wisdom }}</td>
+                <td>{{ sheet.charisma }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-<table class="table">
-    <tr>
-        <th scope="row">Race</th>
-        <td>{{ sheet.racename }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Level</th>
-        <td>{{ sheet.level }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Speed</th>
-        <td>{{ sheet.speed }} ft.</td>
-    </tr>
-    <tr>
-        <th scope="row">AC</th>
-        <td>{{ sheet.ac }}</td>
-    </tr>
-</table>
-<table class="table">
-    <thead>
-        <th scope="col"></th>
-        <th scope="col">Strength</th>
-        <th scope="col">Dexterity</th>
-        <th scope="col">Constitution</th>
-        <th scope="col">Intelligence</th>
-        <th scope="col">Wisdom</th>
-        <th scope="col">Charisma</th>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">Ability modifier</th>
-            <td>{{ sheet.strmodifier }}</td>
-            <td>{{ sheet.dexmodifier }}</td>
-            <td>{{ sheet.conmodifier }}</td>
-            <td>{{ sheet.intmodifier }}</td>
-            <td>{{ sheet.wismodifier }}</td>
-            <td>{{ sheet.chamodifier }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Ability score</th>
-            <td>{{ sheet.strength }}</td>
-            <td>{{ sheet.dexterity }}</td>
-            <td>{{ sheet.constitution }}</td>
-            <td>{{ sheet.intelligence }}</td>
-            <td>{{ sheet.wisdom }}</td>
-            <td>{{ sheet.charisma }}</td>
-        </tr>
-    </tbody>
-</table>
-
-<p>
-    <form method="POST" action="{{ url_for('character_level_up', char_id=sheet.char_id) }}">
-        <input class="btn btn-primary" type="submit" value="Level up" />
-    </form>
-</p>
 <p>
     <form method="POST" action="{{ url_for('character_remove', char_id=sheet.char_id) }}">
         <input class="btn btn-primary" type="submit" value="Remove character" />
     </form>
 </p>
+
 {% endblock %}

@@ -12,6 +12,7 @@ if os.environ.get("HEROKU"):
 else:
 	app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///charactersheets.db"
 	app.config["SQLALCHEMY_ECHO"] = True
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -23,6 +24,8 @@ from application.characters import models
 from application.characters import views
 
 from application.races import models
+from application.classes import models
+from application.armor import models
 
 #login
 from application.auth import models

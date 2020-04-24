@@ -2,7 +2,7 @@ from application import db
 from application.models import Base
 
 class Race(Base):
-	__tablename__ = 'Race'
+	__tablename__ = 'race'
 
 	name = db.Column(db.String(144), nullable=False)
 	speed = db.Column(db.Integer, nullable=False)
@@ -14,7 +14,7 @@ class Race(Base):
 	charisma = db.Column(db.Integer, nullable=False)
 	type = db.Column(db.Integer, nullable=False)
 
-	def __init__(self, name, speed, str, con, intel, wis, cha, type):
+	def __init__(self, name, speed, str, dex, con, intel, wis, cha, type):
 		self.name = name
 		self.speed = speed,
 		self.strength = str
