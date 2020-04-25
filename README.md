@@ -13,5 +13,5 @@ Toimintoja:
   * Esineen poistaminen hahmolta
   
 Relaatiokaavio
-![alt text](https://github.com/annareej/DndCharacterSheet/blob/master/DndCharacterSheet.png "Relaatiokaavio")
+![alt text](documentation/DndCharacterSheetV2.png "Relaatiokaavio")
  
