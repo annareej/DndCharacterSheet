@@ -13,10 +13,11 @@ As an user I want to create a D&D character
 - [ ] using standard array (15, 14, 13, 12, 10, 8)
 
 ## CHARACTER SHEET
-- [x] As an user I want to view all my characters. [DONE]
+- [x] As an user I want to view all my characters.
 * SELECT c.name, c.level, class.name FROM character c, account user, LEFT JOIN class ON c.class_id = class.id WHERE c.account_id = user.id AND user.username = "username";
 - [x] As an user I want to view a summary from a single character
-* SELECT c.name, c.strength + r.strength, ... , c.charisma + r.charisma, c.maxhp, c.level, r.name, class.name, class.hitdice FROM character c LEFT JOIN race r ON c.race_id = r.id LEFT JOIN class ON c.class_id = class.id; 
+* SELECT c.name, c.strength + r.strength, ... , c.charisma + r.charisma, c.maxhp, c.level, r.name, class.name, class.hitdice FROM character c LEFT JOIN race r ON c.race_id = r.id LEFT JOIN class ON c.class_id = class.id;
+- [ ] AS an user I want to edit characters name, ability scores, class and race
 - [x] As an user I want to level up my character so that I can increase characters hit point maximum (1 x class hit die + con modifier)
 * UPDATE character SET level = (old level + 1), maxhp = (old hp + hp) WHERE id = chosencharacter;
 - [x] As an user I want to add armor to my character.
