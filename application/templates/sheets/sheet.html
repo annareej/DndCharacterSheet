@@ -2,138 +2,232 @@
 
 {% block body %}
 <script>
-    function btn_Click(){
-        $("#levelup").css("display", "block");
+    $(function() {
+    });
+
+    function toggleLevelUp(btn){
+        if($("#Levelup").is(":visible")){
+            $("#Levelup").hide();
+            $(btn).html("Level up");
+            sessionStorage.setItem("#Levelup", 'false');
+        }
+        else {
+            $("#Levelup").show();
+            $(btn).html("Cancel");
+            sessionStorage.setItem("#Levelup", 'true');    
+        }
     }
 
-    function toggle(btn){
-        if(btn.id == "cancelArmor"){
-            $("#armor_row").show();
-            $("#armor_form").hide(); 
-        } 
-        else if(btn.id == "showArmor"){
-            $("#armor_form").show();
-            $("#armor_row").hide();
-        }
-        else if(btn.id == "toggleLevelup"){
-            if($("#Levelup").is(":visible")){
-                $("#Levelup").hide();
-                $(btn).html("Level up");
-            }
-            else {
-                $("#Levelup").show();
-                $(btn).html("Cancel");    
-            }
-        }
-
+    function toggle(btn, div1, div2){
+        
+        $(div1).show();
+        $(div2).hide(); 
+        sessionStorage(div1, 'true');
+        sessionStorage(div2, 'false')
         return false;
     }
 
 </script>
-
-<h3>{{ sheet.charname }}</h3>
-<div class="row">
-    <div class="col-md-3">
-        <h6>{{ sheet.racename }}</h6>
-        <h6>{{ sheet.classname }}</h6>
-        <h6>Level {{ sheet.level }}</h6>
+<div id="character_sheet">
+    <h3>{{ sheet.character.name }}</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <h6>{{ sheet.race.name }}</h6>
+            <h6>{{ sheet.charclass.name }}</h6>
+            <h6>Level {{ sheet.character.level }}</h6>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <table class="table table-striped">
-            <tr>
-                <th scope="row">Speed</th>
-                <td>{{ sheet.speed }} ft.</td>
-            </tr>
-            <tr>
-                <th scope="row">Hit point maximum</th>
-                <td>{{ sheet.maxhp }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Armor class</th>
-                <td>{{ sheet.ac }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Proficiency bonus</th>
-                <td>+{{ sheet.profbonus }}</td>
-            </tr>
-        </table>
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table table-striped">
+                <tr>
+                    <th scope="row">Speed</th>
+                    <td>{{ sheet.race.speed }} ft.</td>
+                </tr>
+                <tr>
+                    <th scope="row">Hit point maximum</th>
+                    <td>{{ sheet.character.maxhp }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Armor class</th>
+                    <td>{{ sheet.ac }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Proficiency bonus</th>
+                    <td>+{{ sheet.profbonus }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Hit dice total</th>
+                    <td>{{ sheet.character.level }}d{{ sheet.charclass.hitdice }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <table class="table">
+                <tr id="armor_row">
+                    <th scope="row">Armor</th>
+                    <td>{{ sheet.armor }}</td>
+                    <td>
+                        <button type="button" id="showArmor" class="btn btn-danger" onclick="toggle(this, '#armor_form', '#armor_row')">Change</button>
+                    </td>
+                </tr>
+                <tr id="armor_form" style="display: none;">
+                    <form method="POST" action="{{ url_for('character_add_armor', char_id=sheet.character.id) }}">
+                        <th scope="row">{{ armorform.armor.label }}</th>
+                        <td>{{ armorform.armor(class='form-control') }}</td>
+                        <td><input class="btn btn-danger" type="submit" value="Save"></td>
+                    </form>
+                    <td><button type="button" id="cancelArmor" class="btn btn-danger" onclick="toggle(this, '#armor_row', '#armor_form')">Cancel</button></td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="col-md-6">
-        <table class="table">
-            <tr id="armor_row">
-                <th scope="row">Armor</th>
-                <td>{{ sheet.armor }}</td>
-                <td>
-                    <button type="button" id="showArmor" class="btn btn-primary" onclick="toggle(this)">Change</button>
-                </td>
-            </tr>
-            <tr id="armor_form" style="display: none;">
-                <form method="POST" action="{{ url_for('character_add_armor', char_id=sheet.char_id) }}">
-                    <th scope="row">{{ armorform.armor.label }}</th>
-                    <td>{{ armorform.armor(class='form-control') }}</td>
-                    <td><input class="btn btn-primary" type="submit" value="Save"></td>
-                </form>
-                <td><button type="button" id="cancelArmor" class="btn btn-primary" onclick="toggle(this)">Cancel</button></td>
-            </tr>
-        </table>
-    </div>
-</div>
-<div style="margin-top: 1em;">
-    <button id="toggleLevelup" type="button" class="btn btn-primary" onclick="toggle(this);">Level up</button>
-    <div id="Levelup" style="display: none; padding: 1em;">
-        <form class="form-inline" method="POST" action="{{ url_for('character_level_up', char_id=sheet.char_id) }}">            
-            <div class="input-group">
-                {{ form.hpfield.label }}
-                {{ form.hpfield(class='form-control') }}
-                <div class="input-group-append">
-                    <span class="input-group-text">{% if sheet.conmodifier|int > -1%}+{% endif %}{{ sheet.conmodifier }}</span>
-                    <input class="btn btn-primary" type="submit" value="Save" />
+    <div style="margin-top: 1em;">
+        <button id="toggleLevelup" type="button" class="btn btn-danger" onclick="toggleLevelUp(this);">Level up</button>
+        <div id="Levelup" style="display: none; padding: 1em;">
+            <form class="form-inline" method="POST" action="{{ url_for('character_level_up', char_id=sheet.character.id) }}">            
+                <div class="input-group">
+                    {{ form.hpfield.label }}
+                    {{ form.hpfield(class='form-control', min='1', max=sheet.charclass.hitdice, placeholder='Value between 1 and sheet.charclass.hitdice') }}
+                    <div class="input-group-append">
+                        <span class="input-group-text">{% if sheet.conmodifier|int > -1%}+{% endif %}{{ sheet.conmodifier }}</span>
+                        <input class="btn btn-danger" type="submit" value="Save" />
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+            <ul>
+                {% for error in form.hpfield.errors %}
+                <li class="error">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-</div>
-<hr />
-<div style="margin-top: 1em;">
-    <table class="table">
-        <thead class="thead-dark">
-            <th scope="col"></th>
-            <th scope="col">Strength</th>
-            <th scope="col">Dexterity</th>
-            <th scope="col">Constitution</th>
-            <th scope="col">Intelligence</th>
-            <th scope="col">Wisdom</th>
-            <th scope="col">Charisma</th>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">Ability modifier</th>
-                <td>{% if sheet.strmodifier|int > 0%}+{% endif %}{{ sheet.strmodifier }}</td>
-                <td>{% if sheet.dexmodifier|int > 0%}+{% endif %}{{ sheet.dexmodifier }}</td>
-            <td>{% if sheet.conmodifier|int > 0%}+{% endif %}{{ sheet.conmodifier }}</td>
-            <td>{% if sheet.intmodifier|int > 0%}+{% endif %}{{ sheet.intmodifier }}</td>
-            <td>{% if sheet.wismodifier|int > 0%}+{% endif %}{{ sheet.wismodifier }}</td>
-            <td>{% if sheet.chamodifier|int > 0%}+{% endif %}{{ sheet.chamodifier }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Ability score</th>
-                <td>{{ sheet.strength }}</td>
-                <td>{{ sheet.dexterity }}</td>
-                <td>{{ sheet.constitution }}</td>
-                <td>{{ sheet.intelligence }}</td>
-                <td>{{ sheet.wisdom }}</td>
-                <td>{{ sheet.charisma }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <hr />
+    <div style="margin-top: 1em;">
+        <table class="table">
+            <thead class="thead-dark">
+                <th scope="col"></th>
+                <th scope="col">Strength</th>
+                <th scope="col">Dexterity</th>
+                <th scope="col">Constitution</th>
+                <th scope="col">Intelligence</th>
+                <th scope="col">Wisdom</th>
+                <th scope="col">Charisma</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Ability modifier</th>
+                    <td>{% if sheet.strmodifier|int > 0%}+{% endif %}{{ sheet.strmodifier }}</td>
+                    <td>{% if sheet.dexmodifier|int > 0%}+{% endif %}{{ sheet.dexmodifier }}</td>
+                    <td>{% if sheet.conmodifier|int > 0%}+{% endif %}{{ sheet.conmodifier }}</td>
+                    <td>{% if sheet.intmodifier|int > 0%}+{% endif %}{{ sheet.intmodifier }}</td>
+                    <td>{% if sheet.wismodifier|int > 0%}+{% endif %}{{ sheet.wismodifier }}</td>
+                    <td>{% if sheet.chamodifier|int > 0%}+{% endif %}{{ sheet.chamodifier }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Ability score</th>
+                    <td>{{ sheet.strength }}</td>
+                    <td>{{ sheet.dexterity }}</td>
+                    <td>{{ sheet.constitution }}</td>
+                    <td>{{ sheet.intelligence }}</td>
+                    <td>{{ sheet.wisdom }}</td>
+                    <td>{{ sheet.charisma }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<p>
-    <form method="POST" action="{{ url_for('character_remove', char_id=sheet.char_id) }}">
-        <input class="btn btn-primary" type="submit" value="Remove character" />
+    <form method="POST" action="{{ url_for('character_remove', char_id=sheet.character.id) }}">
+        <!--<button type="button" class="btn btn-danger" onclick="toggle(this, '#edit_character', '#character_sheet')">Edit character</button>-->
+        <a class="btn btn-danger" href="{{ url_for('character_edit_form', char_id=sheet.character.id) }}">Edit character</a>
+        <input class="btn btn-danger" type="submit" value="Remove character" />
     </form>
-</p>
+</div>
+<!--<div id="edit_character" style="display:none">
+    <form method="POST" action="{{ url_for('character_edit', char_id=sheet.character.id) }}">
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ editform.name.label }}
+                {{ editform.name(class='form-control', placeholder='Name this character', value=sheet.character.name) }}
+                <ul>
+                    {% for error in editform.name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="form-group col-md-4">
+                {{ editform.race.label }}
+                {{ editform.race(class='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ editform.class_id.label }}
+                {{ editform.class_id(class='form-control') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ editform.strength.label }}
+                {{ editform.strength(class='form-control', placeholder='Value between 3 and 18', value=sheet.character.strength) }}             
+                <ul>
+                    {% for error in editform.strength.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="form-group col-md-4">
+                {{ editform.dexterity.label }}
+                {{ editform.dexterity(class='form-control', placeholder='Value between 3 and 18', value=sheet.character.dexterity)  }}
+                <ul>
+                    {% for error in editform.dexterity.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="form-group col-md-4">
+                {{ editform.constitution.label }}
+                {{ editform.constitution(class='form-control', placeholder='Value between 3 and 18', value=sheet.character.constitution) }}
+                <ul>
+                    {% for error in editform.constitution.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ editform.intelligence.label }}
+                {{ editform.intelligence(class='form-control', placeholder='Value between 3 and 18', value=sheet.character.intelligence) }}
+                <ul>
+                    {% for error in editform.intelligence.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="form-group col-md-4">
+                {{ editform.wisdom.label }}
+                {{ editform.wisdom(class='form-control', placeholder='Value between 3 and 18', value=sheet.character.wisdom) }}
+                <ul>
+                    {% for error in editform.wisdom.errors %}
+                    <li class="error">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="form-group col-md-4">
+                {{ editform.charisma.label }}
+                {{ editform.charisma(class='form-control', placeholder='Value between 3 and 18', value=sheet.character.charisma) }}
+                <ul>
+                    {% for error in editform.charisma.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-danger" value="Save" />
+        <button type="button" class="btn btn-danger" onclick="toggle(this, '#character_sheet', '#edit_character')">Cancel</button>
+    </form>-->
+    <!--<form method="GET" action="{{ url_for('character_edit_form', char_id=sheet.character.id) }}">
+        <input class="btn btn-danger" type="submit" value="Edit character" />
+    </form>-->
+</div>
 
 {% endblock %}

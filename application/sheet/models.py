@@ -9,7 +9,10 @@ class CharacterSheet:
 		character = Character.query.get(char_id)
 		race = Race.query.get(character.race_id)
 		charclass = CharacterClass.query.get(character.class_id)
-
+		
+		self.character = character
+		self.race = race
+		self.charclass = charclass 
 		self.char_id = character.id
 		self.charname = character.name
 		self.level = character.level
@@ -51,3 +54,5 @@ class CharacterSheet:
 
 		self.ac = StaticMethods.getAC(char_id)
 		self.armor = armor_name
+
+		self.hitdie = charclass.hitdice

@@ -2,17 +2,21 @@
 
 {% block body %}
 <h3>Your characters</h3>
+{% if characters is defined %}
 <table class="table">       
     {% for character in characters %}
     <tr>
-        <td>{{ character.name }}</td>
+        <td>{{ character.character_name }}</td>
+        <td>{{ character.race_name }}</td>
+        <td>{{ character.class_name }}</td>
         <td>Level {{ character.level }}</td>
         <td>
-            <form method="GET" action="{{ url_for('character_view', char_id=character.id) }}">
-                <input class="btn btn-primary" type="submit" value="View" />
+            <form method="GET" action="{{ url_for('character_view', char_id=character.character_id) }}">
+                <input class="btn btn-danger" type="submit" value="View" />
             </form>
         </td>
     </tr>
     {% endfor %}
 </table>
+{% endif %}
 {% endblock %}

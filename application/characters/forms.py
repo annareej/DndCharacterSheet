@@ -34,8 +34,7 @@ class CharacterForm(FlaskForm):
 		csrf = False
 	
 class LevelUpForm(FlaskForm):
-	
-	hpfield = IntegerField("Add hit points to maximum", [validators.NumberRange(min=1)])
+	hpfield = IntegerField("Add hit points to maximum", [validators.DataRequired(), validators.NumberRange(min=1)])
 
 	class Meta:
 		csrf = False

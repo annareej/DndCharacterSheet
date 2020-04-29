@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <p>
-        Hello world!
-    </p>
+<div style="text-align: center;">
+    {% if current_user.is_authenticated %}
+    <h1>Welcome {{ current_user.name }}!</h1>
+    {% else %}
+    <p>Please <a class="text-danger" href="{{ url_for('auth_login') }}">login</a> or <a class="text-danger" href="{{ url_for('user_form') }}">sign up</a> to use application</p>
+    {% endif %}
+</div>
 {% endblock %}
