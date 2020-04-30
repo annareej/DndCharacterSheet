@@ -26,8 +26,9 @@ from application.characters import views
 from application.races import models
 from application.classes import models
 from application.armor import models
-from application.weapons import models
 
+from application.weapons import models
+from application.weapons import views
 #login
 from application.auth import models
 from application.auth import views

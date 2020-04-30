@@ -13,8 +13,8 @@ class CharacterWeapons(Base):
 	character_id = db.Column(db.String(144), db.ForeignKey('character.id'), nullable=False)
 	weapon_id = db.Column(db.String(144), db.ForeignKey('weapon.id'), nullable=False)
 
-	character = db.relationship('Character', backref=db.backref('weapon_characters'))
-	weapon = db.relationship('Weapon', backref=db.backref('character_weapons'))
+	character = db.relationship('Character', backref=db.backref('weapon_characters', cascade='all, delete-orphan'))
+	weapon = db.relationship('Weapon', backref=db.backref('character_weapons', cascade='all, delete-orphan'))
 
 class Character(Base):
 	name = db.Column(db.String(144), nullable=False)

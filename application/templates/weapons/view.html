@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>{{ weapon.name }}</h3>
+<table class="table">
+    <tr>
+        <th scope="row">Weapon type</th>
+        <td>{{ weapon.type }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Damage</th>
+        <td>{{ weapon.diceamount }}d{{ weapon.damagedice }} {{ weapon.damagetype }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Enchantment</th>
+        <td>+ {{ weapon.bonus }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Finesse</th>
+        <td>{{ weapon.finesse }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Magic weapon</th>
+        <td>{{ weapon.magical }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Created by</th>
+        <td>{{ weapon.created_by }}</td>
+    </tr>       
+</table>
+<div class="form-inline">
+    {% if current_user.id|int == weapon.created_by|int %}
+    <div class='form-group'>
+        <form method="GET" action="{{ url_for('weapon_edit_form', weapon_id=weapon.id) }}">
+            <input class="btn btn-danger" type="submit" value="Edit" />
+        </form>
+        <form method="POST" action="{{ url_for('weapon_remove', weapon_id=weapon.id) }}">
+            <input class="btn btn-danger" type="submit" value="Remove"/>
+        </form>
+    </div>
+    {% endif %}
+    <a class="btn btn-danger" href="{{ url_for('weapons_index') }}">Back</a>
+</div>
+{% endblock %}

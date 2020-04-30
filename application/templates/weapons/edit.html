@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script>
+    $(function() {
+        var magical = $("#magical");
+
+        if(!magical.is(":checked")){
+            $("#bonus").removeAttr("disabled");
+        }
+
+        magical.click(function() {
+            if ($(this).is(":checked")) {
+                $("#bonus").removeAttr("disabled");
+            } else {
+                $("#bonus").attr("disabled", "disabled");
+            }
+        });
+    }); 
+</script>
+<h3>Edit weapon</h3>
+<hr>
+<form method="POST" action="{{ url_for('weapon_edit', weapon_id=weapon.id) }}">
+    <div class="row">
+        <div class="form-group form-group col-md-6">
+            {{ form.name.label }}
+            {{ form.name(class='form-control', placeholder='Name this weapon') }}
+            <ul>
+                {% for error in form.name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group col-md-6">
+            {{ form.weapontype.label }}
+            {{ form.weapontype(class='form-control') }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            {{ form.damagedice.label }}
+            {{ form.damagedice(class='form-control') }}
+        </div>
+        <div class="form-group col-md-3">
+            {{ form.diceamount.label }}
+            {{ form.diceamount(class='form-control', placeholder='Value between 1 and 4') }}
+            <ul>
+                {% for error in form.diceamount.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group col-md-3">
+            {{ form.damagetype.label }}
+            {{ form.damagetype(class='form-control') }}
+        </div>
+    </div>
+    <div class="form-group form-check col-md-3">
+        {{ form.finesse(class="form-check-input") }}
+        {{ form.finesse.label }}
+    </div>
+        <div class="form-group form-check col-md-3">
+            {{ form.magical(class="form-check-input") }}
+            {{ form.magical.label }}
+        </div>
+        <div class="form-group col-md-3">
+            {{ form.bonus.label }}
+            {{ form.bonus(class='form-control') }}
+        </div>
+    <div class="form-group form-check">
+        {{ form.public(class="form-check-input") }}
+        {{ form.public.label }}
+    </div>
+    <input type="submit" class="btn btn-danger" value="Save" />
+    <a class="btn btn-danger" href="{{ url_for('weapon_view', weapon_id=weapon_id) }}">Back</a>
+</form>
+{% endblock %}

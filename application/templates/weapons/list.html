@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Weapons</h3>
+<table class="table">
+    <thead>
+        <th scope="col">Weapon name</th>
+        <th scope="col">Equipped by</th>
+        <th></th>
+    </thead>
+    {% for weapon in weapons %}
+    <tr>
+        <td>{{ weapon.weapon_name }}</td>
+        <td>{{ weapon.character_count }} characters</td>
+        <td>
+            <form method="GET" action="{{ url_for('weapon_view', weapon_id=weapon.weapon_id) }}">
+                <input class="btn btn-danger" type="submit" value="View" />
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<h3>Your weapons</h3>
+<a class="btn btn-danger" href="{{ url_for('create_weapon_form') }}">New weapon</a>
+<table class="table">
+    <thead>
+        <th scope="col">Weapon name</th>
+        <th scope="col">Equipped by</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for weapon in user_weapons %}
+        <tr>
+            <td>{{ weapon.weapon_name }}</td>
+            <td>{{ weapon.character_count }} characters</td>
+            <td>
+                <form method="GET" action="{{ url_for('weapon_view', weapon_id=weapon.weapon_id) }}">
+                    <input class="btn btn-danger" type="submit" value="View" />
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

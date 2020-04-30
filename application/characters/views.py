@@ -79,6 +79,7 @@ def character_level_up(char_id):
 @login_required
 def character_remove(char_id):
 	character = Character.query.get(char_id)
+
 	db.session().delete(character)
 	db.session().commit()
 	return redirect(url_for("characters_index"))
