@@ -2,7 +2,7 @@ from flask import redirect, render_template, request, url_for, g
 from flask_login import login_required, current_user
 
 from application import app, db
-from application.characters.models import Character
+from application.characters.models import Character, CharacterWeapons
 from application.characters.forms import CharacterForm, LevelUpForm
 
 from application.staticmethods import StaticMethods
@@ -13,6 +13,8 @@ from application.races.models import Race
 from application.sheet.models import CharacterSheet
 from application.armor.models import Armor
 from application.armor.forms import ArmorForm
+
+from application.weapons.forms import EquipWeaponForm
 
 @app.route("/characters/", methods=["GET"])
 @login_required
@@ -48,7 +50,7 @@ def character_view(char_id):
 	charClass = CharacterClass.query.get(character.class_id)
 	form = LevelUpForm(maxhp=charClass.hitdice)
 	form.maxhp = charClass.hitdice
-	return render_template("sheets/sheet.html", sheet = CharacterSheet(char_id), form = form, armorform = ArmorForm(), editform=CharacterForm())
+	return render_template("sheets/sheet.html", sheet = CharacterSheet(char_id), form = form, armorform = ArmorForm(), editform=CharacterForm(), weaponform=EquipWeaponForm())
 
 @app.route("/characters/levelup/<char_id>/", methods=["POST"])
 @login_required
@@ -92,6 +94,25 @@ def character_add_armor(char_id):
 		character.add_armor(None)
 	else:
 		character.add_armor(armor.id)
+	db.session().commit()
+
+	return redirect(url_for("character_view", char_id=char_id))
+
+@app.route("/characters/weapon/<char_id>/", methods=["POST"])
+def character_equip_weapon(char_id):
+	form = EquipWeaponForm(request.form)
+	weapon = form.weapon.data
+	character = Character.query.get(char_id)
+
+	character.weapons.append(weapon)
+	db.session().commit()
+
+	return redirect(url_for("character_view", char_id = char_id))
+
+@app.route("/characters/deleteweapon/<char_id>/<weapon_id>/", methods=["POST"])
+def character_unequip_weapon(char_id,weapon_id):
+	character_weapon = CharacterWeapons.query.get(weapon_id)
+	db.session().delete(character_weapon)
 	db.session().commit()
 
 	return redirect(url_for("character_view", char_id=char_id))

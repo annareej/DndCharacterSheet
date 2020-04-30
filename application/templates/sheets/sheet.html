@@ -22,8 +22,6 @@
         
         $(div1).show();
         $(div2).hide(); 
-        sessionStorage(div1, 'true');
-        sessionStorage(div2, 'false')
         return false;
     }
 
@@ -80,6 +78,43 @@
                     <td><button type="button" id="cancelArmor" class="btn btn-danger" onclick="toggle(this, '#armor_row', '#armor_form')">Cancel</button></td>
                 </tr>
             </table>
+            <h6>Weapons</h6>
+            <table class="table">
+                <thead>
+                    <th scope="col">NAME</th>
+                    <th scope="col">ATK BONUS</th>
+                    <th scope="col">DAMAGE/TYPE</th>
+                    <th scope="col"></th>
+                </thead>
+                {% if sheet.weapons is defined %}
+                    {% for weapon in sheet.weapons %}
+                    <tr>
+                        <td>{{ weapon.weapon_name }}</td>
+                        <td>{% if weapon.atk_bonus|int > -1%}+{% endif %}{{ weapon.atk_bonus }}</td>
+                        <td>{{ weapon.damage }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('character_unequip_weapon', char_id=sheet.character.id, weapon_id=weapon.association_id) }}">
+                                <input class="btn btn-danger" type="submit" value="Remove" />
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                <tr id="toggle_weapon">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><button type="button" class="btn btn-danger" onclick="toggle(this, '#weapon_row', '#toggle_weapon');">Add weapon</button></td>
+                </tr>
+                <tr id="weapon_row" style="display: none;">
+                    <form method="POST" action="{{ url_for('character_equip_weapon', char_id=sheet.character.id) }}">
+                        <th scope="row">{{ weaponform.weapon.label }}</th>
+                        <td>{{ weaponform.weapon(class='form-control') }}</td>
+                        <td><input class="btn btn-danger" type="submit" value="Save"></td>
+                    </form>
+                    <td><button type="button" class="btn btn-danger" onclick="toggle(this,'#toggle_weapon','#weapon_row');">Cancel</button></td>
+                </tr>
+            </table>
         </div>
     </div>
     <div style="margin-top: 1em;">
@@ -88,7 +123,7 @@
             <form class="form-inline" method="POST" action="{{ url_for('character_level_up', char_id=sheet.character.id) }}">            
                 <div class="input-group">
                     {{ form.hpfield.label }}
-                    {{ form.hpfield(class='form-control', min='1', max=sheet.charclass.hitdice, placeholder='Value between 1 and sheet.charclass.hitdice') }}
+                    {{ form.hpfield(class='form-control', min='1', max=sheet.charclass.hitdice, placeholder='Value between 1 and ') }}
                     <div class="input-group-append">
                         <span class="input-group-text">{% if sheet.conmodifier|int > -1%}+{% endif %}{{ sheet.conmodifier }}</span>
                         <input class="btn btn-danger" type="submit" value="Save" />
@@ -117,12 +152,12 @@
             <tbody>
                 <tr>
                     <th scope="row">Ability modifier</th>
-                    <td>{% if sheet.strmodifier|int > 0%}+{% endif %}{{ sheet.strmodifier }}</td>
-                    <td>{% if sheet.dexmodifier|int > 0%}+{% endif %}{{ sheet.dexmodifier }}</td>
-                    <td>{% if sheet.conmodifier|int > 0%}+{% endif %}{{ sheet.conmodifier }}</td>
-                    <td>{% if sheet.intmodifier|int > 0%}+{% endif %}{{ sheet.intmodifier }}</td>
-                    <td>{% if sheet.wismodifier|int > 0%}+{% endif %}{{ sheet.wismodifier }}</td>
-                    <td>{% if sheet.chamodifier|int > 0%}+{% endif %}{{ sheet.chamodifier }}</td>
+                    <td>{% if sheet.strmodifier|int > -1%}+{% endif %}{{ sheet.strmodifier }}</td>
+                    <td>{% if sheet.dexmodifier|int > -1%}+{% endif %}{{ sheet.dexmodifier }}</td>
+                    <td>{% if sheet.conmodifier|int > -1%}+{% endif %}{{ sheet.conmodifier }}</td>
+                    <td>{% if sheet.intmodifier|int > -1%}+{% endif %}{{ sheet.intmodifier }}</td>
+                    <td>{% if sheet.wismodifier|int > -1%}+{% endif %}{{ sheet.wismodifier }}</td>
+                    <td>{% if sheet.chamodifier|int > -1%}+{% endif %}{{ sheet.chamodifier }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Ability score</th>

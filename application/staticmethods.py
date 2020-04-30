@@ -1,8 +1,3 @@
-from application.characters.models import Character
-from application.classes.models import CharacterClass
-from application.races.models import Race
-from application.armor.models import Armor, ArmorType
-
 class StaticMethods:
 
     @staticmethod
@@ -45,30 +40,4 @@ class StaticMethods:
         elif score == 20:
             modifier = 5
 
-        return modifier
-
-    @staticmethod
-    def getAC(char_id):
-            character = Character.query.get(char_id)
-            race = Race.query.get(character.race_id)
-            
-            armor = Armor.query.get(character.armor_id)
-            dexmod = StaticMethods.getModifier(character.dexterity + race.dexterity)
-            ac = 10 + dexmod
-
-            if not armor:
-                charClass = CharacterClass.query.get(character.class_id)
-                if charClass.name == "Barbarian":
-                    ac += StaticMethods.getModifier(character.constitution + race.constitution)
-                elif charClass.name == "Monk":
-                    ac += StaticMethods.getModifier(character.wisdom + race.wisdom)
-            else:
-                ac = armor.ac
-                if armor.type == ArmorType.LIGHT.value:
-                    ac += dexmod
-                elif armor.type == ArmorType.MEDIUM.value:
-                    if dexmod > 2:
-                        ac += 2
-                    else:
-                        ac += dexmod
-            return ac
+        return modifier 

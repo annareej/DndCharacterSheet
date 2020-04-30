@@ -13,15 +13,8 @@ class CharacterSheet:
 		self.character = character
 		self.race = race
 		self.charclass = charclass 
-		self.char_id = character.id
-		self.charname = character.name
-		self.level = character.level
-		self.racename = race.name
-		self.speed = race.speed
-		self.profbonus = StaticMethods.getProficiencyBonus(self.level)
-		self.classname = charclass.name
-		self.maxhp = character.maxhp
-
+		self.profbonus = StaticMethods.getProficiencyBonus(character.level)
+		
 		strength = character.strength + race.strength
 		self.strength = strength
 		self.strmodifier = StaticMethods.getModifier(strength)
@@ -52,7 +45,9 @@ class CharacterSheet:
 		else:
 			armor_name = armor.name
 
-		self.ac = StaticMethods.getAC(char_id)
+		self.ac = character.get_armor_class()
 		self.armor = armor_name
 
 		self.hitdie = charclass.hitdice
+
+		self.weapons = character.get_character_weapons()
