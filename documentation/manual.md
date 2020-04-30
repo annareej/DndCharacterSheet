@@ -11,6 +11,8 @@ For now this application supports character generation via dice rolling. A popul
 
 In character creator pick your character a name, race and class. From race you will get some bonuses to your ability scores. From class you will get your hitdie. When creating character this will affect the maximum value of your hitpoints which comes from hitdie + your conmodifier (these are calculated automatically by the application).
 
-After character creation you can view the character. The UI will make a summary of your character including hit point, ability modifiers, armor class etc. Here you can also change the armor your character is wearing and add weapons for your character to wield.
+After character creation you can view the character. The application will make a summary of your character including hit point, ability modifiers, armor class etc. Here you can also change the armor your character is wearing and add weapons for your character to wield.
+
+![alt text](./manual_character.PNG "Create character")
 
 With the application you can also homebrew weapons for your characters to use. Pick a name, weapon type, damagedie, dice amount, damagetype and other attributes for the weapon. You can decided if you want other users to see and use your creations by making it public. 
