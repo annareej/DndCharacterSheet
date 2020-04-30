@@ -49,9 +49,9 @@ class Weapon(Base):
             "SELECT weapon.id, weapon.name, COUNT(character_weapons.character_id) "
             "FROM weapon "
                 "LEFT JOIN character_weapons ON character_weapons.weapon_id = weapon.id "
-            "WHERE weapon.public = 1 AND (weapon.created_by IS NOT NULL AND NOT weapon.created_by = :user_id) "
+            "WHERE weapon.public = :public AND (weapon.created_by IS NOT NULL AND NOT weapon.created_by = :user_id) "
             "GROUP BY weapon.id;"
-        ).params(user_id = user_id)
+        ).params(user_id = user_id, public=True)
         res = db.engine.execute(stmt)
         
         response = []
