@@ -61,7 +61,7 @@ def weapon_create():
 
     finesse = form.finesse.data
     public = form.public.data
-Weapon()
+
     weapon = Weapon(name, damagedice, diceamount, damagetype, finesse, magical, bonus, weapontype, public)
     weapon.created_by = current_user.id
 
