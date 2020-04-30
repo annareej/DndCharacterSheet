@@ -48,7 +48,7 @@ def weapon_create():
     form = CreateWeaponForm(request.form)
     
     name = form.name.data
-    weapontype = form.name.data
+    weapontype = form.weapontype.data
     damagedice = form.damagedice.data
     diceamount = form.diceamount.data
     damagetype = form.damagetype.data
@@ -61,7 +61,7 @@ def weapon_create():
 
     finesse = form.finesse.data
     public = form.public.data
-
+Weapon()
     weapon = Weapon(name, damagedice, diceamount, damagetype, finesse, magical, bonus, weapontype, public)
     weapon.created_by = current_user.id
 
